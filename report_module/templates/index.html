@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Report Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('report.static', filename='styles.css') }}">
+
+</head>
+<body>
+    <div class="main-container">
+        <h1>MEDI CHECK</h1>
+        <h2>AI Medical Report and Prescription Analyzer</h2>
+        
+        <form id="report-form" enctype="multipart/form-data">
+            <label for="report">Upload Medical Report/Prescription (PDF):</label>
+            <input type="file" id="report" name="report" accept="application/pdf" required>
+            
+            <div>
+                <input type="checkbox" id="sendEmail" name="sendEmail">
+                <label for="sendEmail">Send results to my email</label>
+            </div>
+
+            <label for="email" id="emailLabel" style="display:none;">Enter your email:</label>
+            <input type="email" id="email" name="email" placeholder="example@email.com" style="display:none;">
+            
+            <button type="submit">Analyze Report</button>
+        </form>
+        
+        <div id="result"></div>
+
+        <!-- Optional quick consult button -->
+        <div id="consult-now">
+            <a href="https://www.apollo247.com/doctors">
+                <button id="consult-btn" type="button">Consult Doctor</button>
+            </a>
+        </div>
+
+        <!-- Disclaimer -->
+        <div id="disclaimer">
+            <p>
+                This AI-generated report summary is for informational purposes only 
+                and should not be considered medical advice. 
+                Please consult a qualified healthcare provider for professional guidance.
+            </p>
+        </div>
+    </div>
+
+    <script>
+    // Toggle email field based on checkbox
+    document.getElementById('sendEmail').addEventListener('change', function() {
+        const emailField = document.getElementById('email');
+        const emailLabel = document.getElementById('emailLabel');
+        if (this.checked) {
+            emailField.style.display = 'block';
+            emailLabel.style.display = 'block';
+            emailField.required = true;
+        } else {
+            emailField.style.display = 'none';
+            emailLabel.style.display = 'none';
+            emailField.required = false;
+        }
+    });
+
+    document.getElementById('report-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('report', document.getElementById('report').files[0]);
+        formData.append('sendEmail', document.getElementById('sendEmail').checked);
+        formData.append('email', document.getElementById('email').value.trim());
+
+        fetch('/report/analyze-report', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.summary) {
+                document.getElementById('result').innerText = "Summary & Insights:\n" + data.summary;
+                if (data.email_sent) {
+                    document.getElementById('result').innerText += "\n\nResults have also been sent to your email.";
+                }
+            } else {
+                document.getElementById('result').innerText = data.error;
+            }
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Symptom Checker</title>
+    <link rel="stylesheet" href="{{ url_for('disease.static', filename='styles.css') }}">
+
+</head>
+<body>
+    <div class="main-container">
+        <h1>MEDI CHECK</h1>
+        <h2>Healthcare Consultant</h2>
+        
+        <form id="symptom-form">
+            <label for="symptoms">Enter Symptoms (comma-separated):</label>
+            <input type="text" id="symptoms" name="symptoms" required>
+            <label for="email">Enter your email (optional):</label>
+            <input type="email" id="email" name="email" placeholder="example@email.com">
+
+            <div>
+                <input type="checkbox" id="sendEmail" name="sendEmail">
+                <label for="sendEmail">Send results to my email</label>
+            </div>
+            <button type="submit">Predict Disease</button>
+        </form>
+        
+        <div id="result"></div>
+
+        <!-- New Consult Now button -->
+        <div id="consult-now">
+            <a href="https://www.apollo247.com/doctors/quick-book-listing?consultMode=ONLINE&location=Jaipur&id=615ebc75-4172-4f46-9ba0-b3688c053fcc&date=2024-10-04&name=General_Physician/_Internal_Medicine">
+                <button id="consult-btn" type="button">Consult Now</button>
+            </a>
+        </div>
+
+        <!-- Book Lab Test button -->
+        <div id="book-test">
+            <a href="https://www.apollo247.com/lab-tests">
+                <button id="labtest-btn" type="button">Book Lab Test</button>
+            </a>
+        </div>
+
+        <!-- Disclaimer -->
+        <div id="disclaimer">
+            <p>
+                This AI-powered diagnosis is for informational purposes only 
+                and should not be considered as professional medical advice. 
+                Always consult with a qualified healthcare provider for proper diagnosis and treatment.
+            </p>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('symptom-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const symptoms = document.getElementById('symptoms').value.split(',').map(s => s.trim());
+        const email = document.getElementById('email').value.trim();
+        const sendEmail = document.getElementById('sendEmail').checked;
+
+        fetch('/disease/predict-disease', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ symptoms, email, sendEmail })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.diseases) {
+                let resultText = 'Predicted Diseases:\n';
+                data.diseases.forEach((disease, index) => {
+                    resultText += `${disease}: ${data.probabilities[index].toFixed(2)}\n`;
+                });
+                document.getElementById('result').innerText = resultText;
+            } else {
+                document.getElementById('result').innerText = data.error;
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>
