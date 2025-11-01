@@ -1,10 +1,10 @@
-# 🩺 MediCheck
+# MediCheck
 
 MediCheck is a unified Flask-based web application that combines **AI-powered disease prediction** and **medical report analysis** into a single, easy-to-use platform. It leverages trained ML models, Flask blueprints, and a clean modular architecture for efficient health diagnostics.
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Disease Prediction** using ML models trained on symptom datasets.
 - **Medical Report Analysis** for quick evaluation of uploaded health data.
@@ -12,11 +12,11 @@ MediCheck is a unified Flask-based web application that combines **AI-powered di
 - **Modular Architecture** using Flask Blueprints.
 - **Environment Variable Support** via `.env`.
 - **CORS Enabled API** for smooth frontend-backend communication.
-- **Ready for Cloud Deployment** on platforms like Railway, Render, or Heroku.
+- **Deployed** on Render.
 
 ---
 
-## 🧩 Project Structure
+## Project Structure
 
 ```
 MEDI-CHECK/
@@ -59,7 +59,7 @@ MEDI-CHECK/
 
 ---
 
-## ⚙️ Installation & Setup
+## Installation & Setup
 
 ### 1. Clone the Repository
 ```bash
@@ -81,8 +81,10 @@ pip install -r requirements.txt
 ### 4. Setup Environment Variables
 Create a `.env` file in the root directory:
 ```bash
-SECRET_KEY=your_secret_key
-FLASK_ENV=development
+EMAIL_USER=your_key
+EMAIL_PASS=your_key
+GOOGLE_API_KEY=your_key
+PYTHON_VERSION=3.12.3
 ```
 
 ### 5. Run the Application
@@ -93,9 +95,9 @@ Visit: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ---
 
-## 🌐 Deployment
+##  Deployment
 
-### 🔹 Render / Railway / Heroku
+### 🔹 Render
 
 **Procfile**:
 ```
@@ -111,22 +113,20 @@ Push your project to GitHub and connect it to your chosen hosting platform.
 
 ---
 
-## 🧠 Tech Stack
+## Tech Stack
 
 - **Backend:** Flask, Flask-CORS
 - **Frontend:** HTML, CSS, JavaScript
 - **ML Models:** Scikit-learn
-- **Database (optional):** SQLite / MongoDB
-- **Deployment:** Render / Railway / Heroku
+- **Database:** MongoDB
+- **Deployment:** Render
 
 ---
 
-## 💡 Future Enhancements
+## Future Enhancements
 
 - Add feedback storage (SQLite/MongoDB)
 - Enable user authentication for personalized health history
-- Integrate AI-based prescription suggestions
-- Add cloud-hosted database for scalability
 - Include health analytics dashboard
 
 ---
@@ -141,4 +141,4 @@ This project is licensed under the **MIT License**.
 
 ---
 
-**Developed with ❤️ by Kanak Raj Arora & Team MediCheck**
+**Developed by Team MediCheck**
